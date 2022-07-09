@@ -5,12 +5,12 @@ class MarvelAPIController {
 
     async getCharacters(request: Request, response: Response) {
         const { user_id } = request;
-        const { limit } = request.query;
+        const { limit, offset } = request.query;
 
         const service = new MarvelAPIService()
 
         try {
-            const data = await service.getCharacters(user_id, limit.toString())
+            const data = await service.getCharacters(user_id, limit.toString(), offset.toString())
 
             return response.json({
                 code: 200,
@@ -27,12 +27,12 @@ class MarvelAPIController {
 
     async getComics(request: Request, response: Response) {
         const { user_id } = request;
-        const { limit } = request.query;
+        const { limit, offset } = request.query;
 
         const service = new MarvelAPIService()
 
         try {
-            const data = await service.getComics(user_id, limit.toString())
+            const data = await service.getComics(user_id, limit.toString(), offset.toString())
 
             return response.json({
                 code: 200,
