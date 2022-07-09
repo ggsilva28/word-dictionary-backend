@@ -46,7 +46,7 @@ class MarvelAPIService {
                 name: value.name || value.title,
                 description: value.description,
                 thumbnail: value.thumbnail.path + '.' + value.thumbnail.extension,
-                link: value.resourceURI,
+                link: value.urls.filter(url => url.type === 'detail')[0].url || '',
                 isFavorite: !!isFavorite
             }
         })
