@@ -8,13 +8,17 @@ generator client {
 }
 
 model UserFavorites {
-    id        String   @id @default(auto()) @map("_id") @db.ObjectId
-    userId    String?  @db.ObjectId
-    marvelId  String?  @db.ObjectId
-    type      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @default(now())
-    User      User?    @relation(fields: [userId], references: [id])
+    id          String   @id @default(auto()) @map("_id") @db.ObjectId
+    userId      String?  @db.ObjectId
+    marvelId    Int
+    type        String
+    name        String
+    description String
+    thumbnail   String
+    link        String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @default(now())
+    User        User?    @relation(fields: [userId], references: [id])
 }
 
 model User {
