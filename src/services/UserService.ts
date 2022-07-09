@@ -1,4 +1,5 @@
 import { prismaClient } from "../prisma"
+import { sign } from "jsonwebtoken"
 
 interface IUser {
     name: string
@@ -26,7 +27,22 @@ class UserService {
                 data: { name, email, password }
             })
 
-            return user;
+            const token = sign(
+                {
+                    user: {
+                        name: user.name,
+                        email: user.email,
+                        id: user.id
+                    }
+                }
+                , process.env.JWT_SECRET,
+                {
+                    subject: user.id,
+                    expiresIn: '1d'
+                }
+            )
+
+            return { user, token };
         } catch (err) {
             throw err;
         }
