@@ -9,13 +9,13 @@ class MarvelAPIService {
     async getCharacters(user_id: string, limit: string, offset: string) {
         const { data: response } = await this.getMarvel('characters', limit, offset)
         const userFavorites = await this.getFavorites(user_id, 'characters')
-        return { data: { ...response.data, results: this.setIsFavorite(userFavorites, response) } }
+        return { ...response.data, results: this.setIsFavorite(userFavorites, response) }
     }
 
     async getComics(user_id: string, limit: string, offset: string) {
         const { data: response } = await this.getMarvel('comics', limit, offset)
         const userFavorites = await this.getFavorites(user_id, 'comics')
-        return { data: { ...response.data, results: this.setIsFavorite(userFavorites, response) } }
+        return { ...response.data, results: this.setIsFavorite(userFavorites, response) }
     }
 
     getMarvel(content: string, limit: string, offset: string) {
