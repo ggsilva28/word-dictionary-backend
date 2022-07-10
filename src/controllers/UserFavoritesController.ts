@@ -57,7 +57,7 @@ class UserFavoritesController {
         const service = new UserFavoritesService()
 
         try {
-            const result = await service.get(user_id, type.toString(), parseInt(limit.toString()), parseInt(offset.toString()))
+            const result = await service.get(user_id, type.toString(), Number(limit), Number(offset))
             return response.json({
                 code: 200,
                 message: 'favorites.found',
