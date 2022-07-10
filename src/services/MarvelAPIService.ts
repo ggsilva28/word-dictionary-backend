@@ -40,7 +40,7 @@ class MarvelAPIService {
 
     setIsFavorite(listFavorite, list) {
         const finalList = list.data.results.map(value => {
-            const isFavorite = listFavorite.find(userFavorite => userFavorite.marvelId === value.id)
+            const isFavorite = listFavorite.findIndex(userFavorite => userFavorite.marvelId === value.id)
 
             return {
                 id: value.id,
@@ -48,7 +48,8 @@ class MarvelAPIService {
                 description: value.description,
                 thumbnail: value.thumbnail.path + '.' + value.thumbnail.extension,
                 link: value.urls.filter(url => url.type === 'detail')[0].url || '',
-                isFavorite: !!isFavorite
+                isFavorite: isFavorite !== -1,
+                userFavoriteId: listFavorite[isFavorite]?.id
             }
         })
 
