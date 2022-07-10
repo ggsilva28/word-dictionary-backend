@@ -52,12 +52,12 @@ class UserFavoritesController {
 
     async getFavorites(request: Request, response: Response) {
         const { user_id } = request;
-        const { type } = request.query;
+        const { type, limit, offset } = request.query;
 
         const service = new UserFavoritesService()
 
         try {
-            const result = await service.get(user_id, type.toString())
+            const result = await service.get(user_id, type.toString(), parseInt(limit.toString()), parseInt(offset.toString()))
             return response.json({
                 code: 200,
                 message: 'favorites.found',

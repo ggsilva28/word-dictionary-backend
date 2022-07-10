@@ -46,16 +46,30 @@ class UserFavoritesService {
         }
     }
 
-    async get(user_id: string, type: string) {
+    async get(user_id: string, type: string, limit: number, offset: number) {
         try {
             const get = await prismaClient.userFavorites.findMany({
+                take: limit,
+                skip: offset * limit,
+                where: {
+                    userId: user_id,
+                    type: type
+                },
+            })
+
+            const total = await prismaClient.userFavorites.count({
                 where: {
                     userId: user_id,
                     type: type
                 }
             })
 
-            return get
+            return {
+                offset: offset,
+                limit: limit,
+                total: total,
+                results: get
+            }
         } catch (err) {
             return err
         }
