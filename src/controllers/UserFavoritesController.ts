@@ -14,7 +14,7 @@ class UserFavoritesController {
             return response.json({
                 code: 200,
                 message: 'favorite.added',
-                data: result
+                data: { ...result, isFavorite: true, userFavoriteId: result.id }
             })
 
         } catch (err) {
@@ -37,7 +37,7 @@ class UserFavoritesController {
             return response.json({
                 code: 200,
                 message: 'favorite.removed',
-                data: result
+                data: { ...result, isFavorite: false }
             })
 
         } catch (err) {
