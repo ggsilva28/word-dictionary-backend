@@ -43,6 +43,7 @@ class MarvelAPIService {
             const isFavorite = listFavorite.find(userFavorite => userFavorite.marvelId === value.id)
 
             return {
+                id: value.id,
                 name: value.name || value.title,
                 description: value.description,
                 thumbnail: value.thumbnail.path + '.' + value.thumbnail.extension,
