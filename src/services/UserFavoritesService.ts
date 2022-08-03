@@ -1,28 +1,18 @@
 import { prismaClient } from "../prisma"
-import { MarvelAPIService } from "./MarvelAPIService"
 
 interface UserFavorites {
-    id: number
-    name: string
-    description: string
-    thumbnail: string
-    link: string
+    word?: string
 }
 
 class UserFavoritesService {
 
-    async add(user_id: string, data: UserFavorites, type: string) {
+    async add(user_id: string, data: UserFavorites) {
         try {
 
             const add = await prismaClient.userFavorites.create({
                 data: {
                     userId: user_id,
-                    type: type,
-                    name: data.name,
-                    description: data.description,
-                    thumbnail: data.thumbnail,
-                    link: data.link,
-                    marvelId: data.id
+                    word: data.word,
                 }
             })
 
@@ -46,21 +36,19 @@ class UserFavoritesService {
         }
     }
 
-    async get(user_id: string, type: string, limit: number, offset: number) {
+    async get(user_id: string, limit: number, offset: number) {
         try {
             const get = await prismaClient.userFavorites.findMany({
                 take: limit,
                 skip: offset * limit,
                 where: {
                     userId: user_id,
-                    type: type
                 },
             })
 
             const total = await prismaClient.userFavorites.count({
                 where: {
                     userId: user_id,
-                    type: type
                 }
             })
 

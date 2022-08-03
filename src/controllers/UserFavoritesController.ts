@@ -5,12 +5,12 @@ class UserFavoritesController {
 
     async addFavorite(request: Request, response: Response) {
         const { user_id } = request;
-        const { type, data } = request.body;
+        const { data } = request.body;
 
         const service = new UserFavoritesService()
 
         try {
-            const result = await service.add(user_id, data, type)
+            const result = await service.add(user_id, data)
             return response.json({
                 code: 200,
                 message: 'favorite.added',
@@ -57,7 +57,7 @@ class UserFavoritesController {
         const service = new UserFavoritesService()
 
         try {
-            const result = await service.get(user_id, type.toString(), Number(limit), Number(offset))
+            const result = await service.get(user_id, Number(limit), Number(offset))
             return response.json({
                 code: 200,
                 message: 'favorites.found',

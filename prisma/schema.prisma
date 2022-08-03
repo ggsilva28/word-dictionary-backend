@@ -1,5 +1,5 @@
 datasource db {
-    provider = "mongodb"
+    provider = "postgresql"
     url      = env("DATABASE_URL")
 }
 
@@ -8,25 +8,26 @@ generator client {
 }
 
 model UserFavorites {
-    id          String   @id @default(auto()) @map("_id") @db.ObjectId
-    userId      String?  @db.ObjectId
-    marvelId    Int
-    type        String
-    name        String
-    description String
-    thumbnail   String
-    link        String
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @default(now())
-    User        User?    @relation(fields: [userId], references: [id])
+    id        String   @id @default(cuid())
+    userId    String?  @map("user_id")
+    word      String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now())
+    User      User?    @relation(fields: [userId], references: [id])
 }
 
 model User {
-    id        String          @id @default(auto()) @map("_id") @db.ObjectId
+    id        String          @id @default(cuid())
     name      String
     email     String          @unique
     password  String
     createdAt DateTime        @default(now())
     updatedAt DateTime        @default(now())
     favorites UserFavorites[]
+}
+
+model Words {
+    word      String    @unique
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @default(now())
 }
