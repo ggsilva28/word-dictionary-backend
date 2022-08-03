@@ -11,7 +11,7 @@ class UserFavoritesController {
 
         try {
             const result = await service.add(user_id, data)
-            return response.json({
+            return response.status(200).json({
                 code: 200,
                 message: 'favorite.added',
                 data: { ...result, isFavorite: true, userFavoriteId: result.id }
@@ -19,7 +19,7 @@ class UserFavoritesController {
 
         } catch (err) {
 
-            return response.json({
+            return response.status(400).json({
                 code: 400,
                 error: 'favorite.failed',
                 data: err
@@ -34,7 +34,7 @@ class UserFavoritesController {
 
         try {
             const result = await service.remove(id)
-            return response.json({
+            return response.status(200).json({
                 code: 200,
                 message: 'favorite.removed',
                 data: { ...result, isFavorite: false }
@@ -42,7 +42,7 @@ class UserFavoritesController {
 
         } catch (err) {
 
-            return response.json({
+            return response.status(400).json({
                 code: 400,
                 error: 'favorite.failed',
                 data: err
@@ -52,13 +52,13 @@ class UserFavoritesController {
 
     async getFavorites(request: Request, response: Response) {
         const { user_id } = request;
-        const { type, limit, offset } = request.query;
+        const { limit, offset } = request.query;
 
         const service = new UserFavoritesService()
 
         try {
             const result = await service.get(user_id, Number(limit), Number(offset))
-            return response.json({
+            return response.status(200).json({
                 code: 200,
                 message: 'favorites.found',
                 data: result
@@ -66,7 +66,7 @@ class UserFavoritesController {
 
         } catch (err) {
 
-            return response.json({
+            return response.status(400).json({
                 code: 400,
                 error: 'favorites.not_found',
                 data: err

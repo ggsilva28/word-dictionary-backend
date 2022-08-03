@@ -1,10 +1,10 @@
 import { Request, Response } from "express"
 import { prismaClient } from "../prisma"
+import { WordsServices } from "../services/WordsService";
 
 class WordsController {
 
-
-    addList(request: Request, response: Response) {
+    async addList(request: Request, response: Response) {
 
         const fs = require('fs');
         const path = require('path');
@@ -15,25 +15,44 @@ class WordsController {
             return { word: line }
         })
 
-        prismaClient.words.createMany({
-            data: words,
-            skipDuplicates: true
-        }).then((result: any) => {
-            return response.json({
+        const service = new WordsServices()
+
+        try {
+            await service.addMany(words)
+            return response.status(200).json({
                 code: 200,
-                message: 'words.added',
-                data: result
+                message: 'words.add.success',
             })
-        }).catch((err: any) => {
-            return response.json({
+        } catch (err) {
+            return response.status(400).json({
                 code: 400,
-                error: 'words.failed',
+                message: 'words.add.failed',
                 data: err
             })
-        })
+        }
 
     }
 
+    async list(request: Request, response: Response) {
+        const service = new WordsServices()
+        const { limit, offset } = request.query;
+
+        try {
+            const result = await service.get(Number(limit || 100), Number(offset || 0))
+            return response.status(200).json({
+                code: 200,
+                message: 'words.list.success',
+                data: result
+            })
+        } catch (err) {
+            return response.status(400).json({
+                code: 400,
+                message: 'words.list.failed',
+                data: err
+            })
+        }
+
+    }
 }
 
 export { WordsController }

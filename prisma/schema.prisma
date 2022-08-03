@@ -27,7 +27,7 @@ model User {
 }
 
 model Words {
-    word      String    @unique
+    word      String    @unique @id
     createdAt DateTime  @default(now())
     updatedAt DateTime  @default(now())
 }

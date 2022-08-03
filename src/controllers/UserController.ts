@@ -10,7 +10,7 @@ class UserController {
 
         const result = await service.get(user_id)
 
-        return response.json({
+        return response.status(200).json({
             code: 200,
             message: 'user.get',
             data: result
@@ -24,7 +24,7 @@ class UserController {
 
         try {
             const result = await service.create({ name, email, password })
-            return response.json({
+            return response.status(200).json({
                 code: 200,
                 message: 'user.created',
                 data: result
@@ -32,7 +32,7 @@ class UserController {
             
         } catch (err) {
 
-            return response.json({
+            return response.status(400).json({
                 code: 400,
                 error: 'user.not_created',
                 data: err

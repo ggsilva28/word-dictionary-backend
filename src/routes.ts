@@ -25,5 +25,6 @@ router.get("/user-favorites/get", ensureAuthenticated, new UserFavoritesControll
 
 //Words
 router.post("/words/add-list", new WordsController().addList)
+router.get("/words/list", new WordsController().list)
 
 export { router }
