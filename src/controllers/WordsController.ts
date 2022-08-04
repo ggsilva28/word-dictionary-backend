@@ -42,7 +42,9 @@ class WordsController {
             return response.status(200).json({
                 code: 200,
                 message: 'words.list.success',
-                data: result
+                data: {...result, results: result.results.map((word: any) => {
+                    return word.word
+                })}
             })
         } catch (err) {
             return response.status(400).json({
