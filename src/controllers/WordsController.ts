@@ -66,10 +66,15 @@ class WordsController {
 
         const service = new UserFavoritesService()
 
+        let getWord = { data: [{}]}
+        try {
+            getWord = await axios.get(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`)
+        } catch (err) {
+            console.log(err.message)
+        }
+
         try {
             const isFav = await service.isFavorite(word, user_id)
-
-            const getWord = await axios.get(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`)
 
             return response.status(200).json({
                 code: 200,
