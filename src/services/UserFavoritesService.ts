@@ -57,11 +57,7 @@ class UserFavoritesService {
                 limit: limit,
                 total: total,
                 results: get.map(e => {
-                    return {
-                        ...e,
-                        isFavorite: true,
-                        userFavoriteId: e.id
-                    }
+                    return e.word
                 })
             }
         } catch (err) {
