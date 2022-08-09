@@ -1,6 +1,7 @@
-import { Request, Response } from "express"
-import { prismaClient } from "../prisma"
+import { Request, Response, urlencoded } from "express"
 import { WordsServices } from "../services/WordsService";
+import { UserFavoritesService } from "../services/UserFavoritesService";
+import axios from "axios";
 
 class WordsController {
 
@@ -34,22 +35,55 @@ class WordsController {
     }
 
     async list(request: Request, response: Response) {
-        const service = new WordsServices()
         const { limit, offset } = request.query;
+
+        const service = new WordsServices()
 
         try {
             const result = await service.get(Number(limit || 100), Number(offset || 0))
             return response.status(200).json({
                 code: 200,
                 message: 'words.list.success',
-                data: {...result, results: result.results.map((word: any) => {
-                    return word.word
-                })}
+                data: {
+                    ...result, results: result.results.map((word: any) => {
+                        return word.word
+                    })
+                }
             })
         } catch (err) {
             return response.status(400).json({
                 code: 400,
                 message: 'words.list.failed',
+                data: err
+            })
+        }
+
+    }
+
+    async detail(request: Request, response: Response) {
+        const { user_id } = request;
+        const { word } = request.params;
+
+        const service = new UserFavoritesService()
+
+        try {
+            const isFav = await service.isFavorite(word, user_id)
+
+            const getWord = await axios.get(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`)
+
+            return response.status(200).json({
+                code: 200,
+                message: 'words.detail.success',
+                data: {
+                    isFavorite: isFav,
+                    ...getWord.data[0]
+                }
+            })
+
+        } catch (err) {
+            return response.status(400).json({
+                code: 400,
+                message: 'words.detail.failed',
                 data: err
             })
         }

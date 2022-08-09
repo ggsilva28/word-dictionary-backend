@@ -22,11 +22,12 @@ class UserFavoritesService {
         }
     }
 
-    async remove(id: string) {
+    async remove(word: string, user_id: string) {
         try {
-            const remove = await prismaClient.userFavorites.delete({
+            const remove = await prismaClient.userFavorites.deleteMany({
                 where: {
-                    id: id
+                    userId: user_id,
+                    word: word
                 }
             })
 
@@ -64,6 +65,25 @@ class UserFavoritesService {
             return err
         }
 
+    }
+
+    async isFavorite(word: string, user_id: string) {
+        try {
+            if (user_id) {
+                const isFavorite = await prismaClient.userFavorites.findFirst({
+                    where: {
+                        userId: user_id,
+                        word: word
+                    }
+                })
+
+                return isFavorite? true : false
+            }else{
+                return false
+            }
+        } catch (err) {
+            return err
+        }
     }
 }
 

@@ -28,12 +28,13 @@ class UserFavoritesController {
     }
 
     async removeFavorite(request: Request, response: Response) {
-        const { id } = request.params;
+        const { user_id } = request;
+        const { word } = request.params;
 
         const service = new UserFavoritesService()
 
         try {
-            const result = await service.remove(id)
+            const result = await service.remove(word, user_id)
             return response.status(200).json({
                 code: 200,
                 message: 'favorite.removed',

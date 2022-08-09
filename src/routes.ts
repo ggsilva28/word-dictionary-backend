@@ -6,6 +6,7 @@ import { WordsController } from "./controllers/WordsController";
 
 import { ensureAuthenticated } from "./middleware/ensureAuthenticated";
 import { passwordHash } from "./middleware/passwordHash";
+import { getToken } from "./middleware/getToken";
 
 const router = Router()
 
@@ -20,11 +21,12 @@ router.post("/auth/login", passwordHash, new AuthController().login)
 
 //UserFavorites
 router.post("/user-favorites/add", ensureAuthenticated, new UserFavoritesController().addFavorite)
-router.delete("/user-favorites/remove/:id", ensureAuthenticated, new UserFavoritesController().removeFavorite)
+router.delete("/user-favorites/remove/:word", ensureAuthenticated, new UserFavoritesController().removeFavorite)
 router.get("/user-favorites/get", ensureAuthenticated, new UserFavoritesController().getFavorites)
 
 //Words
 router.post("/words/add-list", new WordsController().addList)
 router.get("/words/list", new WordsController().list)
+router.get("/words/detail/:word", getToken, new WordsController().detail)
 
 export { router }
