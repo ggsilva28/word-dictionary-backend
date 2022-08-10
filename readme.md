@@ -1,7 +1,7 @@
 
 # Words Dictionary - Back end
 
-This application manages the access to Words Dictionary application.
+This application manages the access and data to Words Dictionary application.
 
 ## About the stack
 
