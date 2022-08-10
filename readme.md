@@ -1,5 +1,5 @@
 
-# Words Dictionary App - Back end
+# Words Dictionary - Back end
 
 This application manages the access to Words Dictionary application.
 
